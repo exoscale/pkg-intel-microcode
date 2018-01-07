@@ -1,0 +1,218 @@
+intel-microcode for Debian
+--------------------------
+
+Adding new microcodes to the package:
+
+* Regular microcode bundles (upstream releases):
+
+  Add them to the top-level dir, names must match the patterns:
+
+    *  microcode-<id>.dat for Intel text format bundles;
+    *  microcode-<id>.bin for Intel binary bundles.
+    *  microcode-<id>.d/ for directories with split binary microcode.
+
+    <id> should be the upstream release date in YYYYMMDD format.
+    If it is not, you must make sure microcode files that have
+    been released later also come later in C collating order.
+
+    Some upstream releases contain the microcode update data twice:
+    in .dat, and as a directory with several binary files.  In that
+    case, you must compare the contents (e.g. using iucode_tool -L)
+    to ensure that they match.  Don't add both copies of the update
+    data to the package: it is a waste of mirror space, and only one
+    copy (the one that sorts last) would be used to generate the
+    final microcode pack (so you would still have to ensure both
+    formats had the same contents anyway).
+
+    Hint: iucode_tool will compare two "supposedly identical"
+    microcodes to ensure they are just that: identical.  So, it is
+    enough to do something like this:
+
+       iucode_tool --write-all-named-to=/tmp/dir1 file1.dat ;
+       iucode_tool --write-all-named-to=/tmp/dir2 intel-ucode/ ;
+       diff -R /tmp/dir1 /tmp/dir2 && echo ok ;
+       iucode_tool -v /tmp/dir1 /tmp/dir2
+
+  Later regular microcode bundles have precedence over older regular
+  microcode bundles, and may downgrade microcode revisions.  This
+  implements the automatic "revision rollback" mechanism.
+
+  The "oldies" and the IUC_INCLUDE mechanisms of the main Makefile may
+  select microcodes from any of the regular microcode bundles.
+  Otherwise, only microcodes in the latest regular microcode bundle will
+  be selected.  This logic implements the "automatic removal" mechanism
+  to handle microcode recalls.
+
+  Directories of microcodes must not have nested subdirectories.  The
+  contents of the directory will be processed into a temporary ".dbin"
+  binary microcode file, to allow the automatic "revision rollback"
+  mechanism to work in a predictable way.  Due to sorting order,
+  ".dbin" files are preferred over ".dat" files when deciding which
+  would be used to generate the final microcode pack.
+
+  Supplementary microcode bundles and microcode overrides can select
+  additional microcode (see below).
+
+* Latest available version of a microcode that is not being shipped
+  anymore, but which is present in an older microcode bundle:
+
+  Add "-s <signature>" to IUC_INCLUDE in the Makefile.
+
+* Supplementary microcode bundles:
+
+  The intended usage for this feature is to ship microcode updates that
+  fix important errata before they are available through a regular Intel
+  microcode bundle release.
+
+  Add them to the top-level dir, names must match the pattern:
+
+    *  supplementary-ucode-<id>.bin
+    *  supplementary-ucode-<id>.d/
+
+    <id> should be a descriptive name, sorting order does not
+    matter.  It must not have spaces or tabs.
+
+  These bundles have the same precedence as the newest regular microcode
+  bundle: microcodes with the highest revision among the newest regular
+  microcode bundle and every supplementary microcode bundles will be
+  selected.
+
+  Supplementary microcode bundles must be in binary format.
+
+  Use "iucode_tool -w" to create supplementary microcode bundles.
+  The bundles may have any number of microcodes inside, and should be
+  described in the "upstream" changelog.
+
+  Directories of supplementary microcode updates must not have nested
+  subdirectories.  The data files inside the directory should be in
+  binary format, and may contain more than one microcode update.  They
+  should be descriptively named, and should be described in the
+  "upstream" changelog.
+
+  WARNING: microcodes added through supplementary bundles cannot be
+  "recalled" (excluded or downgraded) automatically by the latest
+  regular microcode bundle, only by overrides and IUC_EXCLUDE.
+
+* Individual microcode overrides (at a specific revision):
+
+  The intended usage for this feature is to ship microcode at a specific
+  revision.  For microcode that should be superseded by a newer version
+  when available, use a supplementary bundle (see above), instead.
+
+  These overrides have the highest precedence, and will override
+  (possibly downgrading) microcodes in the other bundles, regular or
+  supplementary.
+
+  Add them to the top-level dir, names should be in the format:
+
+    *  s<sig>_m<pfmask>_r<revision>.fw
+
+    <sig> is the CPU signature, <pfmask> is the processor flags
+    mask, and revision is the microcode revision level.  All
+    values in hexadecimal using uppercase letters, no leading
+    prefixes, with left padding with zeroes, field length 8, as
+    in the printf mask: s%08X_m%08X_r%08X.fw
+
+  The files must be in binary format, and should contain only a single
+  microcode (to ensure maintainer sanity).
+
+  "iucode_tool -s <signature> -W" can be used to easily extract
+  microcodes and create (and name) .fw override files.
+
+* Excluding microcodes, no matter where they were sourced from:
+
+  Add "-s !<signature>" to IUC_EXCLUDE in the Makefile.
+
+  This will remove from the final microcode distribution even microcodes
+  that were sourced from override files.
+
+
+
+When you add a new microcode (bundle or otherwise):
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!! Always verify if you do not have to remove microcodes from the !!!
+!!! exclusion list in the top Makefile.                            !!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Please avoid shipping microcodes "recalled" by Intel, unless you DO know
+better (i.e. you know the reason why it was "recalled", and you consider
+that Debian users would be best served by its inclusion).  Always
+document why you're doing this as much as you are allowed to in the
+package changelog.  Microcode override files (.fw files) can be used to
+make sure a specific microcode is shipped, however, should you want to
+ship the latest available version of a microcode from older bundles, you
+must use IUC_INCLUDE.
+
+If you are adding a microcode bundle made available directly by Intel in
+their public site, please update the "upstream changelog".  There is no
+fully automated way to do it yet, but you can use "iucode_tool -l" to
+list the contents of the bundles, and apply some sed magic, sort, and
+"diff -u" to find out which microcodes were added, deleted, updated, or
+downgraded.  The debian/diff-latest-pack.sh script should be of help.
+
+Please check all additions against the changelog, and annotate them as
+appropriate when the microcode was present in a previous release.  Intel
+has done a "delete in one release, add back with a downgraded revision
+in the next release" once in the past.  Annotations should say when the
+microcode was updated or downgraded, or just re-added with the same
+revision.
+
+Please check all deletions.  When very recent microcode is deleted, it
+could well mean an unfriendly "microcode revision recall" is happening
+(someone at Intel decided to remove it instead of directly marking it a
+downgrade by publishing the previously known-good revision).  When
+microcodes for older processors are deleted, it is probably safe to
+assume it is just the regular housekeeping cleanups, and the microcode
+should still be shipped by distros that have users running 10-15
+year-old boxes, like Debian.
+
+If you know that a microcode signature belongs to alpha or beta hardware
+(engineering samples), you may remove the microcodes for that signature
+by adding them to IUC_EXCLUDE in the Makefile, on the grounds that such
+microcodes just waste space on everyone's system.  Unfortunately, a list
+of the CPU signatures of such unsupported processors is hard to come by.
+
+
+Keeping useless microcode out of amd64 and x32 binary packages:
+
+It is useless to ship microcode that targets processors not capable of
+Intel64 (X86-64) on the amd64 and x32 arch-specific binary packages.
+
+The top-level Makefile tries to avoid this by parsing cpu-signatures.txt
+and ignoring anything listed as i?86 when building intel-microcode-64.bin,
+which debian/rules will use instead of intel-microcode.bin for non-i386.
+
+Failure to update cpu-signatures.txt should be mostly harmless (it is
+engineered to fail safe, and distribute unlisted microcode so that at
+most it will waste some space).  It is unlikely that new i686 microcode
+signatures will show up, but it may be useful to know to which
+processors a microcode update apply even for newer processors, just in
+case we have to issue a critical update and warn users.
+
+
+Where to find processor signature information:
+
+They appear to be listed only in the Specification Updates for each
+processor, you'll have to locate and download them all from Intel's site
+(this is _not_ easy to do, some of these documents are hard to track
+down).  Better information is likely to available (possibly under NDA)
+on the Intel developer channels.
+
+As for non-canonical sources, there is a CPUID database in the Internet
+and a memory/latency timings database used by HPC people which are of
+some help.  Search engines will often find a BIOS/UEFI firmware upgrade
+changelog that names the particular core of a microcode update
+signature.
+
+Cross-check by searching the S-SPEC numbers in the Intel ARK directory
+(e.g. to verify whether it supports X86-64 or not).
+
+
+Backport notes:
+
+1. Only kernels 3.10 and above are supported in the 3.x branch of
+   intel-microcode.  To support older kernels, you will have to backport
+   the 2.x or 1.x branches of intel-microcode, instead.
+
+-- Henrique de Moraes Holschuh <hmh@debian.org>

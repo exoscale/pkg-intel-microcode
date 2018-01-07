@@ -1,0 +1,239 @@
+intel-microcode for Debian
+--------------------------
+
+Introduction:
+
+Intel® 64 and IA-32 processors (x86_64 and i686 processors) are capable of
+field-upgrading their control program (microcode) as well as parameters
+for other on-chip subsystems (power management, interconnects, etc).
+These microcode updates correct processor errata, and are important for
+safe, stable and correct system operation.
+
+While most of the microcode updates fix problems that happen extremely
+rarely, they also fix high-profile, high-hitting issues.  There are enough
+microcode updates fixing processor errata that would cause system lockup,
+memory corruption, or unpredictable system behavior, to warrant taking
+firmware updates and microcode updates seriously.
+
+Microcode updates are ephemeral: they will be lost after a processor hard
+reset or after the processor is powered off.  They must be reapplied at
+every boot, as well as after the system wakes up from suspend to RAM or
+disk.
+
+Updating the processor microcode is the responsibility of the system
+firmware (BIOS, UEFI).  However, not all vendors will release timely
+updates for their firmware when Intel releases updated microcode, and most
+users don't update their system firmware in a timely fashion (or at all)
+anyway.
+
+The end result is that, unless the operating system picks up the slack and
+tries to deliver microcode updates, the processor in many systems will be
+running with outdated microcode, increasing the chances of incorrect
+system operation.
+
+
+Using Debian to apply microcode updates:
+
+Debian can apply microcode updates to the system processors during the
+operating system boot when a correctly configured Linux kernel (such as
+the standard Debian Linux kernels), and a small set of extra packages from
+"non-free" and "contrib" are installed.
+
+You must have "contrib" and "non-free" repositories enabled in apt's
+sources list (either in /etc/apt/sources.list, or in a file inside
+/etc/apt/sources.list.d/).
+
+On a default Debian system (which uses a Debian kernel, the grub
+bootloader, and initramfs-tools to create the initramfs for the kernel),
+install the "intel-microcode" package and its dependencies, and reboot.
+
+Users of custom configurations should note that microcode update support
+for Debian 8 "Jessie" changed from previous Debian stable releases.
+
+Custom Linux kernels must be built with initramfs support enabled (Kconfig
+option CONFIG_BLK_DEV_INITRD=y), as well as early microcode support
+enabled (Kconfig options CONFIG_MICROCODE=y, CONFIG_MICROCODE_INTEL=y,
+CONFIG_MICROCODE_INTEL_EARLY=y).  An initramfs image *must* be used.
+
+The use of "dracut" to generate the initramfs is not yet supported, but it
+should work if you have a new enough version of dracut that is compatible
+with the kernel you are using (i.e. it might require the use of
+backports).  Dracut will have to be manually configured to enable early
+microcode updates.  Better dracut support is planned for a future version
+of the intel-microcode package.
+
+NOTE: It is not impossible for an operating-system supplied microcode
+update to cause boot issues.  Should that happen, please refer to the
+"RECOVERY PROCEDURE" section of this document.
+
+
+Caveats:
+
+Please keep your UEFI/BIOS up-to-date.  Assuming your motherboard vendor
+does a good job of updating system firmware components, an up-to-date
+version of the firmware will negate most of the caveats listed here.
+
+Some features added to the processor post-launch, such as Intel SGX for
+"Skylake", are likely to require a full firmware update to work.  Some
+issues and errata can only be fixed by a full firmware update should they
+require fixes and workarounds outside of the processor microcode update
+(typically: ME firmware, SMM code, platform MSR setup, ACPI data, Intel
+TXT/SGX modules).
+
+A microcode update may enable functionality or change the behavior of
+weakly-defined functionality (such as the effect of model-dependent CPU
+power-management MSRs).  This can (very rarely) interact badly with
+outdated BIOS/UEFI.
+
+A microcode update can revoke the signatures of vulnerable Intel TXT ACMs
+(refer to security advisory INTEL-SA-00035) and Intel SGX system modules.
+This will disable Intel TXT and Intel SGX in a system that still has the
+vulnerable components in firmware (the only way to really fix the
+vulnerabilities is to update the firmware).
+
+Microcode updates often do not go well with overclocking and similar
+tuning (such as underclocking, "undervolting", etc).  Reset the system to
+Intel's *up-to-date* recommended values should a microcode update seem to
+be causing trouble, and search for a less aggressive, stable operating
+point for the new microcode.
+
+A microcode update can (very rarely) interact badly with, or expose
+software bugs in the kernel and on frequency/thermal control daemons.
+
+
+RECOVERY PROCEDURE:
+
+It is possible for a microcode update to not work well, or to not work at
+all on specific system models.  This is very rare when using early
+microcode updates, but it has happened at least once.
+
+Should you experience problems because of the microcode update, you will
+have to bypass the microcode update process that happens during operating
+system startup (boot), and remove (or install an older version of) the
+intel-microcode package.
+
+To bypass the microcode update during system startup, you must instruct the
+boot loader (grub, lilo, etc) to pass the "dis_ucode_ldr" parameter
+(without the quotes) to the kernel.
+
+If your system uses grub (the default bootloader in Debian):
+
+  1. Access the grub menu during boot (press and hold the left "Shift"
+     key right after starting the system up if you don't see a grub menu
+     during boot);
+
+  2. Move the highlight/cursor to the kernel/boot option you want to
+     use, and press the "e" key to edit it;
+
+  3. Locate the line that starts with "linux" using the cursor
+     keys.  You must add the word "dis_ucode_ldr" (without the quotes) to
+     the end of that line;
+
+  4. Press "Ctrl+X" to start (boot) the system.  The microcode updates
+     will be skipped.
+
+After the system is running, remove or purge the intel-microcode package,
+or alternatively install an older version of the intel-microcode package.
+
+If removing or purging the intel-microcode package fails to do it for some
+reason, please refresh the initramfs using the "update-initramfs -u"
+command (as the root user), and possibly "update-initramfs -u -k <desired
+kernel version>" or "update-initramfs -u -k all".
+
+Please report any issues caused by microcode updates to the Debian bug
+tracker, e.g. using the "reportbug" tool.
+
+
+Microcode update details:
+
+The "early mode" of the Linux kernel microcode update driver will apply
+the microcode updates as soon as possible, before making use of the more
+complex modes and functionality of the system processors.  This greatly
+reduces the chances of system malfunction due to any issues that are
+corrected by the microcode update.
+
+It will update the CPU core that boots the system (known as BSP, for
+"bootstrap processor") as one of the first things it does.  It will also
+update the microcode on the other CPU cores (known as AP, for "application
+processor") while enabling them, before they can be used.
+
+In some cases, early microcode updates will allow the kernel to sidestep
+the need to disable functionality, as an example, there's the "Atom PSE
+erratum".
+
+In other cases, it will be the only safe way to apply a microcode update.
+For example, the Intel TSX errata in Intel Haswell and Broadwell processors
+required a microcode update that entirely disables Intel TSX.  Applying the
+microcode update will crash anything that might be using Intel TSX at that
+time.
+
+The initramfs helpers will attempt to restrict the number of microcode
+updates added to the initramfs to the bare minimum through the use of
+iucode_tool.  This behavior can be changed and fine-tuned through the
+/etc/default/intel-microcode file.
+
+Also, microcode from files matching /usr/share/misc/intel-microcode* will
+be considered.  This allows the easy use of microcode.dat files distributed
+directly by Intel.  Be careful to not leave old files there, or you may end
+up using microcode that Intel stopped distributing on purpose for unknown
+reasons.
+
+
+Downloading new microcode data from Intel:
+
+A new version of the microcode bundle can be downloaded directly from
+Intel.  Try to search for "Linux Processor Microcode":
+
+https://downloadcenter.intel.com/search?keyword=Linux+Processor+Microcode+Data+File
+
+Alternatively, you can try one of these RSS feeds:
+
+http://feeds.downloadcenter.intel.com/rss/?p=483&lang=eng
+http://feeds.downloadcenter.intel.com/rss/?p=2371&lang=eng
+
+To manually install the downloaded microcode bundle, unpack the archive you
+got from Intel and copy the microcode-*.dat file from the archive to
+/usr/share/misc/intel-microcode.dat.
+
+You should make sure the microcode data file is owned by root, and that it
+can only be written to by root (e.g. mode 0644) for security reasons:
+
+	chown root:root /usr/share/misc/intel-microcode.dat
+	chmod 0644 /usr/share/misc/intel-microcode.dat
+
+After you install the updated intel-microcode.dat file, run as root:
+
+	modprobe cpuid
+	iucode_tool --scan-system --write-firmware /usr/share/misc/intel-microcode.dat
+	update-initramfs -u
+
+
+Triggering an immediate microcode update (without a reboot):
+
+ **** WARNING **** **** WARNING **** **** WARNING **** **** WARNING ****
+
+    This procedure used to be safe before microcode update 20140913.
+    It is not safe anymore in the general case.
+
+    While it is likely to continue to be safe for the Intel micro-
+    architectures that preceded Haswell and Silvermont, this is not
+    in any way assured.
+
+    You have been warned.  Do not do this unless you really know
+    what you are doing.
+
+ **** WARNING **** **** WARNING **** **** WARNING **** **** WARNING ****
+
+The microcode kernel module will attempt to apply a microcode update when
+loaded by "modprobe".  If the module is already loaded or compiled-in (it
+cannot be a module anymore in recent Linux kernels), run this command (as
+root):
+
+     echo -n 1 >/sys/devices/system/cpu/microcode/reload
+
+For kernels before Linux v3.6, refer to the iucode_tool(8) manpage.
+
+
+* Note: Intel is a registered trademark of Intel Corporation.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 10 Apr 2016 16:32:09 -0300

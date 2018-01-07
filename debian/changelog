@@ -1,0 +1,855 @@
+intel-microcode (3.20171215.1) unstable; urgency=high
+
+  * Add supplementary-ucode-CVE-2017-5715.d/: (closes: #886367)
+    New upstream microcodes to partially address CVE-2017-5715
+    + Updated Microcodes:
+      sig 0x000306c3, pf_mask 0x32, 2017-11-20, rev 0x0023, size 23552
+      sig 0x000306d4, pf_mask 0xc0, 2017-11-17, rev 0x0028, size 18432
+      sig 0x000306f2, pf_mask 0x6f, 2017-11-17, rev 0x003b, size 33792
+      sig 0x00040651, pf_mask 0x72, 2017-11-20, rev 0x0021, size 22528
+      sig 0x000406e3, pf_mask 0xc0, 2017-11-16, rev 0x00c2, size 99328
+      sig 0x000406f1, pf_mask 0xef, 2017-11-18, rev 0xb000025, size 27648
+      sig 0x00050654, pf_mask 0xb7, 2017-11-21, rev 0x200003a, size 27648
+      sig 0x000506c9, pf_mask 0x03, 2017-11-22, rev 0x002e, size 16384
+      sig 0x000806e9, pf_mask 0xc0, 2017-12-03, rev 0x007c, size 98304
+      sig 0x000906e9, pf_mask 0x2a, 2017-12-03, rev 0x007c, size 98304
+  * Implements IBRS and IBPB support via new MSR (Spectre variant 2
+    mitigation, indirect branches).  Support is exposed through cpuid(7).EDX.
+  * LFENCE terminates all previous instructions (Spectre variant 2
+    mitigation, conditional branches).
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Thu, 04 Jan 2018 23:04:38 -0200
+
+intel-microcode (3.20171117.1) unstable; urgency=medium
+
+  * New upstream microcode data file 20171117
+    + New Microcodes:
+      sig 0x000506c9, pf_mask 0x03, 2017-03-25, rev 0x002c, size 16384
+      sig 0x000706a1, pf_mask 0x01, 2017-10-31, rev 0x001e, size 72704
+      sig 0x000906ea, pf_mask 0x22, 2017-08-23, rev 0x0070, size 95232
+      sig 0x000906eb, pf_mask 0x02, 2017-09-20, rev 0x0072, size 97280
+    + Updated Microcodes:
+      sig 0x00050654, pf_mask 0xb7, 2017-10-17, rev 0x2000035, size 26624
+      sig 0x000806ea, pf_mask 0xc0, 2017-08-03, rev 0x0070, size 96256
+  * source: remove superseded upstream data file: 20170707.
+  * source: remove unneeded intel-ucode/ directory for 20171117.
+  * debian/control: bump standards version to 4.1.1 (no changes)
+  * Makefile: rename microcode-extras.pbin to microcode-includes.pbin.
+  * README.source: fix IUC_EXCLUDE example and minor issues.
+  * Makefile, README.souce: support loading ucode from directories.
+  * debian/rules: switch to dh mode (debhelper v9)
+  * ucode-blacklist: blacklist sig 0x406f1 (Skylake-X H0) from late
+    loading.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 18 Nov 2017 18:55:09 -0200
+
+intel-microcode (3.20170707.1) unstable; urgency=high
+
+  * New upstream microcode datafile 20170707
+    + New Microcodes:
+      sig 0x00050654, pf_mask 0x97, 2017-06-01, rev 0x2000022, size 25600
+      sig 0x000806e9, pf_mask 0xc0, 2017-04-27, rev 0x0062, size 97280
+      sig 0x000806ea, pf_mask 0xc0, 2017-05-23, rev 0x0066, size 95232
+      sig 0x000906e9, pf_mask 0x2a, 2017-04-06, rev 0x005e, size 97280
+    + This release fixes the nightmare-level errata SKZ7/SKW144/SKL150/
+      SKX150 (Skylake) KBL095/KBW095 (Kaby Lake) for all affected Kaby
+      Lake and Skylake processors: Skylake D0/R0 were fixed since the
+      previous upstream release (20170511).  This new release adds the
+      fixes for Kaby Lake Y0/B0/H0 and Skylake H0 (Skylake-E/X).
+    + Fix undisclosed errata in Skylake H0 (0x50654), Kaby Lake Y0
+      (0x806ea), Kaby Lake H0 (0x806e9), Kaby Lake B0 (0x906e9)
+  * source: remove unneeded intel-ucode/ directory
+  * source: remove superseded upstream data file: 20170511
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 08 Jul 2017 19:04:27 -0300
+
+intel-microcode (3.20170511.1) unstable; urgency=medium
+
+  * New upstream microcode datafile 20170511
+    + Updated Microcodes:
+      sig 0x000306c3, pf_mask 0x32, 2017-01-27, rev 0x0022, size 22528
+      sig 0x000306d4, pf_mask 0xc0, 2017-01-27, rev 0x0025, size 17408
+      sig 0x000306f2, pf_mask 0x6f, 2017-01-30, rev 0x003a, size 32768
+      sig 0x000306f4, pf_mask 0x80, 2017-01-30, rev 0x000f, size 16384
+      sig 0x00040651, pf_mask 0x72, 2017-01-27, rev 0x0020, size 20480
+      sig 0x00040661, pf_mask 0x32, 2017-01-27, rev 0x0017, size 24576
+      sig 0x00040671, pf_mask 0x22, 2017-01-27, rev 0x0017, size 11264
+      sig 0x000406e3, pf_mask 0xc0, 2017-04-09, rev 0x00ba, size 98304
+      sig 0x000406f1, pf_mask 0xef, 2017-03-01, rev 0xb000021, size 26624
+      sig 0x000506e3, pf_mask 0x36, 2017-04-09, rev 0x00ba, size 98304
+    + This release fixes undisclosed errata on the desktop, mobile and
+      server processor models from the Haswell, Broadwell, and Skylake
+      families, including even the high-end multi-socket server Xeons
+    + Likely fix the TSC-Deadline LAPIC errata (BDF89, SKL142 and
+      similar) on several processor families
+    + Fix erratum BDF90 on Xeon E7v4, E5v4(?) (closes: #862606)
+    + Likely fix serious or critical Skylake errata: SKL138/144,
+      SKL137/145, SLK149
+    * Likely fix nightmare-level Skylake erratum SKL150.  Fortunately,
+      either this erratum is very-low-hitting, or gcc/clang/icc/msvc
+      won't usually issue the affected opcode pattern and it ends up
+      being rare.
+      SKL150 - Short loops using both the AH/BH/CH/DH registers and
+      the corresponding wide register *may* result in unpredictable
+      system behavior.  Requires both logical processors of the same
+      core (i.e. sibling hyperthreads) to be active to trigger, as
+      well as a "complex set of micro-architectural conditions"
+  * source: remove unneeded intel-ucode/ directory
+    Since release 20170511, upstream ships the microcodes both in .dat
+    format, and as Linux-style split /lib/firmware/intel-ucode files.
+    It is simpler to just use the .dat format file for now, so remove
+    the intel-ucode/ directory. Note: before removal, it was verified
+    that there were no discrepancies between the two microcode sets
+    (.dat and intel-ucode/)
+  * source: remove superseded upstream data file: 20161104
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon, 15 May 2017 15:12:25 -0300
+
+intel-microcode (3.20161104.1) unstable; urgency=medium
+
+  * New upstream microcode datafile 20161104
+    + New Microcodes:
+      sig 0x00050663, pf_mask 0x10, 2016-10-12, rev 0x700000d, size 20480
+      sig 0x00050664, pf_mask 0x10, 2016-06-02, rev 0xf00000a, size 21504
+    + Updated Microcodes:
+      sig 0x000306f2, pf_mask 0x6f, 2016-10-07, rev 0x0039, size 32768
+      sig 0x000406f1, pf_mask 0xef, 2016-10-07, rev 0xb00001f, size 25600
+    + Removed Microcodes:
+      sig 0x000106e4, pf_mask 0x09, 2013-07-01, rev 0x0003, size 6144
+    + This update fixes critical errata on Broadwell-DE V2/Y0 (Xeon
+      D-1500 family), including one that can crash VMWare ESXi 6 with
+      #PF (VMWare KB2146388), and could affect Linux as well.  This same
+      issue was fixed for the E5v4 Xeons in release 20160607
+    + This update fixes undisclosed (and likely critical) errata on
+      Broadwell-E Core i7-68xxK/69xxK/6950X, Broadwell-EP/EX B0/R0/M0
+      Xeon E5v4 and Xeon E7v4, and Haswell-EP Xeon E5v3
+    + This release deletes the microcode update for the Jasper Forest
+      embedded Xeons (Xeon EC35xx/LC35xx/EC35xx/LC55xx), for undisclosed
+      reasons.  The deleted microcode is outdated when compared with the
+      updates for the other Nehalem Xeons
+  * Makefile: always exclude microcode sig 0x206c2 just in case
+    Intel is quite clear in the Intel SA-00030 advisory text that recent
+    revisions (0x14 and later?) of the 0x206c2 microcode updates must be
+    installed along with updated SINIT ACM on vPro systems (i.e. through
+    an UEFI/BIOS firmware update).  This is a defensive change so that we
+    don't ship such a microcode update in the future by mistake
+  * source: remove partially superseded upstream data file: 20160714
+  * source: remove superseded upstream data file: 20101123
+  * changelog: replace "pf mask" with "pf_mask"
+  * control, compat: switch debhelper compatibility level to 9
+  * control: bump standards-version, no changes required
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed, 09 Nov 2016 20:35:57 -0200
+
+intel-microcode (3.20160714.1) unstable; urgency=medium
+
+  * New upstream microcode datafile 20160714
+    + Updated Microcodes:
+      sig 0x000306f4, pf mask 0x80, 2016-06-07, rev 0x000d, size 15360
+      sig 0x000406e3, pf mask 0xc0, 2016-06-22, rev 0x009e, size 97280
+      sig 0x000406f1, pf mask 0xef, 2016-06-06, rev 0xb00001d, size 25600
+      sig 0x000506e3, pf mask 0x36, 2016-06-22, rev 0x009e, size 97280
+    + This release hopefully fixes a hang when updating the microcode on
+      some Skylake-U D-1/Skylake-Y D-1 (sig 0x406e3, pf 0x80) systems
+  * source: remove superseded upstream data file: 20160607
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Thu, 21 Jul 2016 19:04:09 -0300
+
+intel-microcode (3.20160607.2) unstable; urgency=low
+
+  * REMOVE microcode:
+    sig 0x000406e3, pf mask 0xc0, 2016-04-06, rev 0x008a, size 96256
+    (closes: #828819)
+  * The Core i7-6500U and m3-6Y30 processors (Skylake-UY D-1,
+    sig=0x406e3, pf=0x80) may hang while attempting an early microcode
+    update to revision 0x8a, apparently due to some sort of firmware
+    dependency.  On affected systems, the only way to avoid the issue is
+    to get a firmware update that includes microcode revision 0x8a or
+    later.  At this time, there are reports of both sucessful and failed
+    updates on the m3-6Y30, and only of failed updates on the i7-6500U.
+    There are no reports about Skylake-U K-1 (pf=0x40).
+  + WARNING: it is unsafe to use a system based on an Intel Skylake-U/Y
+    processor with microcode earlier than revision 0x8a, due to several
+    critical errata that cause unpredictable behavior, data corruption,
+    and other problems.  Users *must* update their firmware to get
+    microcode 0x8a or newer, and keep it up-to-date.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Fri, 08 Jul 2016 22:54:26 -0300
+
+intel-microcode (3.20160607.1) unstable; urgency=medium
+
+  * New upstream microcode data file 20160607
+    + New Microcodes:
+      sig 0x000406e3, pf mask 0xc0, 2016-04-06, rev 0x008a, size 96256
+      sig 0x000406f1, pf mask 0xef, 2016-05-20, rev 0xb00001c, size 25600
+      sig 0x00050662, pf mask 0x10, 2015-12-12, rev 0x000f, size 28672
+      sig 0x000506e3, pf mask 0x36, 2016-04-06, rev 0x008a, size 96256
+    + Updated Microcodes:
+      sig 0x000306c3, pf mask 0x32, 2016-03-16, rev 0x0020, size 22528
+      sig 0x000306d4, pf mask 0xc0, 2016-04-29, rev 0x0024, size 17408
+      sig 0x000306f2, pf mask 0x6f, 2016-03-28, rev 0x0038, size 32768
+      sig 0x000306f4, pf mask 0x80, 2016-02-11, rev 0x000a, size 15360
+      sig 0x00040651, pf mask 0x72, 2016-04-01, rev 0x001f, size 20480
+      sig 0x00040661, pf mask 0x32, 2016-04-01, rev 0x0016, size 24576
+      sig 0x00040671, pf mask 0x22, 2016-04-29, rev 0x0016, size 11264
+  * source: remove superseded upstream data file: 20151106.
+  * control: change upstream URL to a search for "linux microcode"
+    Unfortunately, many of the per-processor-model feeds have not been
+    updated for microcode release 20160607.  Switch to the general search
+    page as the upstream URL.
+  * README.Debian: fix duplicated word 'to'
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Thu, 23 Jun 2016 12:17:03 -0300
+
+intel-microcode (3.20151106.2) unstable; urgency=medium
+
+  * Makefile: make the build less verbose.
+  * debian/changelog: fix error in past entry.
+    Correct the version of the microcode that caused bug #776431,
+    in the entry for version 3.20150121.1.
+  * initramfs: don't force_load microcode.ko when missing.
+    Detect a missing microcode.ko and don't attempt to force_load() it,
+    otherwise we get spurious warnings at boot.  In verbose mode, log the
+    fact that the microcode driver is modular.   For Linux 4.4 and later,
+    skip the entire module loading logic, since the microcode driver cannot
+    be modular for those kernels (closes: #814301).
+  * initramfs: update copyright notice
+  * initramfs: use iucode_tool -l for verbose mode
+  * README.Debian: enhance and add recovery instructions.
+    Rewrite large parts of the README.Debian document, and add recovery
+    instructions (use of the "dis_ucode_ldr" kernel parameter).
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 17 Apr 2016 12:38:12 -0300
+
+intel-microcode (3.20151106.1) unstable; urgency=medium
+
+  * New upstream microcode data file 20151106
+    + New Microcodes:
+      sig 0x000306f4, pf mask 0x80, 2015-07-17, rev 0x0009, size 14336
+      sig 0x00040671, pf mask 0x22, 2015-08-03, rev 0x0013, size 11264
+    + Updated Microcodes:
+      sig 0x000306a9, pf mask 0x12, 2015-02-26, rev 0x001c, size 12288
+      sig 0x000306c3, pf mask 0x32, 2015-08-13, rev 0x001e, size 21504
+      sig 0x000306d4, pf mask 0xc0, 2015-09-11, rev 0x0022, size 16384
+      sig 0x000306f2, pf mask 0x6f, 2015-08-10, rev 0x0036, size 30720
+      sig 0x00040651, pf mask 0x72, 2015-08-13, rev 0x001d, size 20480
+    * This massive Haswell + Broadwell (and related Xeons) update fixes
+      several critical errata, including the high-hitting BDD86/BDM101/
+      HSM153(?) which triggers an MCE and locks the processor core
+      (LP: #1509764)
+    * Might fix critical errata BDD51, BDM53 (TSX-related)
+  * source: remove superseded upstream data file: 20150121
+  * Add support for supplementary microcode bundles:
+    + README.source: update and mention supplementary microcode
+    + Makefile: support supplementary microcode
+      Add support for supplementary microcode bundles, which (unlike .fw
+      microcode override files) can be superseded by a higher revision
+      microcode from the latest regular microcode bundle.  Also, fix the
+      "oldies" target to have its own exclude filter (IUC_OLDIES_EXCLUDE)
+  * Add support for x32 arch:
+    + README.source: mention x32
+    + control,rules: enable building on x32 arch (Closes: #777356)
+  * ucode-blacklist: add Broadwell and Haswell-E signatures
+    Add a missing signature for Haswell Refresh (Haswell-E) to the "must
+    be updated only by the early microcode update driver" list.  There is
+    at least one report of one of the Broadwell microcode updates disabling
+    TSX-NI, so add them as well just in case
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon, 09 Nov 2015 23:07:32 -0200
+
+intel-microcode (3.20150121.1) unstable; urgency=critical
+
+  * New upstream microcode data file 20150121
+    * Downgraded microcodes (to a previously shipped revision):
+      sig 0x000306f2, pf mask 0x6f, 2014-09-03, rev 0x0029, size 28672
+    * The microcode downgrade fixes a very nasty regression on Xeon E5v3
+      processors (closes: #776431)
+  * critical urgency: the broken sig 0x306f2, rev 0x2d microcode shipped
+    in release 20150107 caused CPU core hangs and Linux boot failures.
+    The upstream fix was to downgrade it to the same microcode revision
+    that was shipped in release 20140913
+  * source: remove superseded upstream data file: 20150107.
+  * initramfs.hook: do not mix arrays and lists.
+    Avoid echo "foo $@", use echo "foo $*" instead.  This is unlikely
+    to be expĺoitable, but it makes ShellCheck happier.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed, 28 Jan 2015 20:03:20 -0200
+
+intel-microcode (3.20150107.1) unstable; urgency=high
+
+  * New upstream microcode data file 20150107
+    + New Microcodes:
+      sig 0x000306d4, pf mask 0xc0, 2014-12-05, rev 0x0018, size 14336
+    + Updated Microcodes:
+      sig 0x000306f2, pf mask 0x6f, 2014-11-21, rev 0x002d, size 28672
+    + High urgency: there are fast-tracked microcode updates in this
+      release which imply that critical errata are being fixed
+  * source: remove superseded upstream data file: 20140913
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 18 Jan 2015 00:30:11 -0200
+
+intel-microcode (3.20140913.1) unstable; urgency=low
+
+  * New upstream microcode data file 20140913
+    + New Microcodes:
+      sig 0x000306f2, pf mask 0x6f, 2014-09-03, rev 0x0029, size 28672
+    + Updated Microcodes:
+      sig 0x000306c3, pf mask 0x32, 2014-07-03, rev 0x001c, size 21504
+      sig 0x00040651, pf mask 0x72, 2014-07-03, rev 0x001c, size 20480
+      sig 0x00040661, pf mask 0x32, 2014-07-03, rev 0x0012, size 23552
+    + WARNING: UNSAFE TO BE APPLIED AT RUNTIME (lp#1370352)
+  * Microcode updates are now applied only through the early initramfs
+    + Bump major version number
+    + Requires Linux kernel v3.10 or later, other kernels unsupported
+    + postinst: don't apply microcode update
+    + kernel preinst: stop loading microcode module
+    + modprobe.d: blacklist microcode module from autoloading outside
+      of the initramfs.  Still load it inside the initramfs for logging
+    + initramfs: always use early initramfs mode, reject kernels before
+      v3.10
+    + README.Debian, NEWS.Debian: update
+  * add a microcode best-effort blacklist.  This is a reactive blacklist
+    which renames problematic microcode data files in such a way they
+    will only be used for the [early] initramfs.  Use it to blacklist
+    all Haswell microcode updates
+  * Allow a non-Intel box to generate an early initramfs with microcode
+    for an Intel box if the /etc/default/intel-microcode defaults are
+    changed:
+    + postinst: always attempt to update the initramfs
+    + initramfs: on auto mode, do nothing in a non-intel box. In
+      forced "early" mode, attempt to run iucode-tool.  This will do
+      nothing (add no microcode) unless the default configuration is
+      changed in /etc/default/intel-microcode
+    + default: update comments
+  * source: remove superseded upstream data file: 20140624
+  * README.source: remove information about lenny, oldstable
+  * debian/control: bump standards vesion to 3.9.6
+  * lintian-overrides: remove
+  * debian/copyright: update upstream copyright dates
+  * postrm: avoid use of test -a
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 19 Oct 2014 15:23:13 -0200
+
+intel-microcode (2.20140624.1) unstable; urgency=high
+
+  * New upstream microcode data file 20140624
+    + Updated Microcodes:
+      sig 0x000306a9, pf mask 0x12, 2014-05-29, rev 0x001b, size 12288
+      sig 0x000306c3, pf mask 0x32, 2014-05-23, rev 0x001a, size 20480
+      sig 0x000306e4, pf mask 0xed, 2014-05-29, rev 0x0428, size 13312
+      sig 0x000306e7, pf mask 0xed, 2014-05-29, rev 0x070d, size 15360
+      sig 0x00040651, pf mask 0x72, 2014-05-23, rev 0x0018, size 19456
+      sig 0x00040661, pf mask 0x32, 2014-05-23, rev 0x0010, size 23552
+    + High urgency: there are fast-tracked microcode updates in this
+      release which imply that critical errata are being fixed
+  * Intel strongly suggests that this CPU microcode update be applied
+    to all Ivy Bridge, Haswell, and Broadwell processors (thanks to
+    Canonical for the warning, refer to LP#1335156)
+  * This update is reported to better fix the errata addressed by the
+    20140430 update (refer to LP#1335156)
+  * source: remove superseded upstream data file: 20140430
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Fri, 27 Jun 2014 16:35:12 -0300
+
+intel-microcode (2.20140430.1) unstable; urgency=low
+
+  * New upstream microcode data file 20140430
+    + New microcodes:
+      sig 0x000306e7, pf mask 0xed, 2014-04-14, rev 0x070c, size 15360
+    + Updated microcodes:
+      sig 0x000306e4, pf mask 0xed, 2014-04-10, rev 0x0427, size 12288
+  * source: remove superseded upstream data file: 20140122
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 03 May 2014 14:21:27 -0300
+
+intel-microcode (2.20140122.1) unstable; urgency=low
+
+  * New upstream microcode data file 20140122
+    + New Microcodes:
+      sig 0x00040661, pf mask 0x32, 2013-08-21, rev 0x000f, size 23552
+    + Updated Microcodes:
+      sig 0x000106e5, pf mask 0x13, 2013-08-20, rev 0x0007, size 7168
+      sig 0x000306c3, pf mask 0x32, 2013-08-16, rev 0x0017, size 20480
+      sig 0x000306e4, pf mask 0xed, 2013-07-09, rev 0x0416, size 11264
+      sig 0x00040651, pf mask 0x72, 2013-09-14, rev 0x0017, size 19456
+  * source: remove superseded upstream data file: 20130906
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 01 Feb 2014 15:39:03 -0200
+
+intel-microcode (2.20130906.1) unstable; urgency=high
+
+  * New upstream microcode data file 20130906
+    + Updated Microcodes:
+      sig 0x000306c3, pf mask 0x32, 2013-08-07, rev 0x0016, size 20480
+      sig 0x00040651, pf mask 0x72, 2013-08-08, rev 0x0016, size 19456
+    + Updated Microcodes (recently removed):
+      sig 0x000106e4, pf mask 0x09, 2013-07-01, rev 0x0003, size 6144
+  * This microcode release *likely* fixes the security issues addressed by
+    the 20130808 update for signature 0x106e4 (Xeon EC3500/EC5500/LC3500/
+    LC5500, Jasper Forest core), which was missing from the 20130808 update
+  * upstream changelog: trim down, sunrise now at 20080220, the first
+    microcode pack with a license that allows redistribution
+  * debian/control: recommend initramfs-tools (>= 0.113~) for backports
+  * cpu-signatures.txt: Xeon nocona cores are 64-bit, ship for amd64 arch
+  * source: remove superseded upstream data file: 20130808
+  * postinst: fix kernel version check for blacklist
+    Distro kernels have version strings that make it hard to get the real
+    kernel version, so we have to blacklist by branches only.  We were
+    refusing to update the kernel on postinst for users of Debian stable's
+    kernel because of this issue
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 21 Sep 2013 20:35:47 -0300
+
+intel-microcode (2.20130808.1) unstable; urgency=high
+
+  * Reupload, high severity, no changes
+  * Bump major version number.  I will need this so that I can track two
+    separate branches for Wheezy: branch 1.x will target stable-updates (no
+    early firmware support), while branch 2.x will target stable-backports,
+    testing and unstable.  This major version bump should have been done for
+    the 1.20130222.3 upload in hindsight.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 17 Aug 2013 10:56:45 -0300
+
+intel-microcode (1.20130808.2) unstable; urgency=high
+
+  * Reupload with high severity.  This microcode update has been documented
+    by Intel to fix a severe security issue (refer to LP bug 1212497);
+    This update is known to fix several nasty errata on 3rd-gen and
+    4th-gen Core i3/i5/i7, and Xeon 5500 and later, including but not
+    limited to:
+    + AAK167/BT248: Virtual APIC accesses with 32-bit PAE paging
+      may cause system crash
+    + AAK170/BT246: The upper 32 bits of CR3 may be incorrectly used
+      with 32-bit paging
+  * Erratum AAK167/BT248 is nasty: "If a logical processor has EPT (Extended
+    Page Tables) enabled, is using 32-bit PAE paging, and accesses the
+    virtual-APIC page then a complex sequence of internal processor
+    micro-architectural events may cause an incorrect address translation or
+    machine check on either logical processor.  This erratum may result in
+    unexpected faults, an uncorrectable TLB error logged in
+    IA32_MCi_STATUS.MCACOD (bits [15:0]), a guest or hypervisor crash, or
+    other unpredictable system behavior"
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Fri, 16 Aug 2013 21:10:12 -0300
+
+intel-microcode (1.20130808.1) unstable; urgency=low
+
+  * New upstream microcode data file 20130808
+    + New Microcodes:
+      sig 0x000306c3, pf mask 0x32, 2013-07-02, rev 0x0012, size 19456
+      sig 0x000306e4, pf mask 0xed, 2013-06-13, rev 0x0415, size 11264
+      sig 0x000306e6, pf mask 0xed, 2013-06-19, rev 0x0600, size 11264
+      sig 0x00040651, pf mask 0x72, 2013-07-02, rev 0x0015, size 18432
+    + Updated Microcodes (removed in the past):
+      sig 0x000106a5, pf mask 0x03, 2013-06-21, rev 0x0019, size 10240
+    + Updated Microcodes:
+      sig 0x000106a4, pf mask 0x03, 2013-06-21, rev 0x0012, size 14336
+      sig 0x000106e5, pf mask 0x13, 2013-07-01, rev 0x0006, size 7168
+      sig 0x00020652, pf mask 0x12, 2013-06-26, rev 0x000e, size 8192
+      sig 0x00020655, pf mask 0x92, 2013-06-28, rev 0x0004, size 3072
+      sig 0x000206a7, pf mask 0x12, 2013-06-12, rev 0x0029, size 10240
+      sig 0x000206d7, pf mask 0x6d, 2013-06-17, rev 0x0710, size 17408
+      sig 0x000206f2, pf mask 0x05, 2013-06-18, rev 0x0037, size 13312
+      sig 0x000306a9, pf mask 0x12, 2013-06-13, rev 0x0019, size 12288
+    + Removed Microcodes:
+      sig 0x000106e4, pf mask 0x09, 2010-03-08, rev 0x0002, size 5120
+  * Remove from the source package an unused upstream microcode bundle,
+    which has been completely superseded by later bundles:
+    microcode-20130222.dat
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Thu, 15 Aug 2013 20:18:32 -0300
+
+intel-microcode (1.20130222.6) unstable; urgency=low
+
+  * initramfs, postinst: don't do anything on non-Intel systems
+  * initramfs, postinst: blacklist several kernel versions (closes: #716917)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 20 Jul 2013 10:46:59 -0300
+
+intel-microcode (1.20130222.5) unstable; urgency=low
+
+  * debian/control: depend on iucode-tool, and shorten description
+  * initramfs hook: several auto mode fixes
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed, 03 Jul 2013 19:55:13 -0300
+
+intel-microcode (1.20130222.4) unstable; urgency=low
+
+  * initramfs: fix xargs error when iucode-tool is not installed
+    in the early firmware update mode code path (closes: #712943)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Thu, 20 Jun 2013 22:07:04 -0300
+
+intel-microcode (1.20130222.3) unstable; urgency=low
+
+  * initramfs: add support for early firmware update
+    Add support to update microcode during early kernel startup, requires
+    Linux 3.9 or later with CONFIG_MICROCODE_INTEL_EARLY enabled.
+    This also requires initramfs-tools 0.113 or later, as well as iucode-tool
+    1.0 or later.  We fallback to late initramfs mode if outdated versions of
+    initramfs-tools or iucode-tool are installed.
+  * Update README.Debian and NEWS.Debian for early updates
+  * debian/control: update recommends for early-fw support
+    Recommend iucode-tool v1.0 or later and initramfs-tools 0.113, and
+    update the explanation in the package description accordingly.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed, 19 Jun 2013 22:15:46 -0300
+
+intel-microcode (1.20130222.2) unstable; urgency=low
+
+  * kernel preinst: simplify and load microcode and cpuid modules
+  * postinst: attempt to load microcode module (closes: #692535)
+  * Makefile: Use the -s! and --loose-date-filtering facilities added to
+    iucode_tool v0.9 to better implement the selection of legacy microcode,
+    and to fix the support for IUC_INCLUDE, which was non-functional.
+  * debian/control: build-depend on iucode-tool (>= 0.9)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed, 27 Mar 2013 16:39:06 -0300
+
+intel-microcode (1.20130222.1) unstable; urgency=low
+
+  * New upstream microcode data file 20130222 (closes: #702152)
+    + Updated Microcodes:
+        sig 0x000306a9, pf mask 0x12, 2013-01-09, rev 0x0017, size 11264
+  * Remove from the source package an unused microcode data file, which
+    was completely superseded by later ones: microcode-20120606-v2.dat
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 03 Mar 2013 16:59:35 -0300
+
+intel-microcode (1.20120606.v2.2) unstable; urgency=medium
+
+  * initramfs: work around initramfs-tools bug #688794.
+    Use "_" in place of "+-." for the initramfs script name.  This works
+    around a PANIC during boot when the initramfs was created in a system
+    with noexec $TMPDIR.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Tue, 09 Oct 2012 07:43:37 -0300
+
+intel-microcode (1.20120606.v2.1) unstable; urgency=medium
+
+  * New upstream microcode data file 20120606-v2 (2012-10-01)
+    + Updated Microcodes:
+      sig 0x000206d6, pf mask 0x6d, 2012-05-22, rev 0x0619, size 16384
+      sig 0x000206d7, pf mask 0x6d, 2012-05-22, rev 0x070d, size 16384
+      sig 0x000306a9, pf mask 0x12, 2012-07-16, rev 0x0013, size 11264
+    + Updated Microcodes (recently removed):
+      sig 0x000206f2, pf mask 0x05, 2012-04-12, rev 0x0036, size 12288
+  * Remove from the source package some unused upstream microcode bundles,
+    which were completely superseded by later ones: microcode-20080401.dat,
+    microcode-20090330.dat, microcode-20090927.dat, microcode-20100209.dat,
+    microcode-20110428.dat, microcode-20111110.dat.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon, 08 Oct 2012 14:56:17 -0300
+
+intel-microcode (1.20120606.6) unstable; urgency=medium
+
+  * debian/control: conflicts with microcode.ctl (<< 1.18~0)
+    microcode.ctl (1.18~0+nmu1) is a transitional package.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 02 Sep 2012 17:46:39 -0300
+
+intel-microcode (1.20120606.5) unstable; urgency=low
+
+  * debian/copyright: correct statement.
+  * debian/control: use i686 instead of IA32 in package description.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Wed, 29 Aug 2012 19:33:14 -0300
+
+intel-microcode (1.20120606.4) unstable; urgency=low
+
+  * README.Debian: mention module-init-tools, not just kmod.  This
+    is useful when backporting to Debian Squeeze.
+  * initramfs: make sure we modprobe cpuid early.
+    Provide an /etc/kernel/preinst.d hook to modprobe the cpuid module
+    before an in-place kernel upgrade makes it impossible to do so at
+    initramfs rebuild time.  This is only done when dev/cpuid is not yet
+    available, IUCODE_TOOL_SCANCPUS is active, and iucode-tool is
+    installed.  Thanks to Philipp Kern for the report.
+  * NEWS.Debian: document failures with in-place kernel upgrades
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 11 Aug 2012 19:35:46 -0300
+
+intel-microcode (1.20120606.3) unstable; urgency=low
+
+  * initramfs: while creating the initramfs, if we need to iucode_tool
+    --scan-system, attempt to modprobe cpuid if cpu/cpuid device is missing,
+    and report an error if it doesn't work.  Thanks to Sebastian Andrzej
+    Siewior for a good suggestion on how to fix it (closes: #683161)
+  * README.Debian: add "modprobe cpuid" to example
+  * debian/control: use better Vcs-browser URI that is properly
+    handled by the current alioth redirector.
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 29 Jul 2012 11:09:44 -0300
+
+intel-microcode (1.20120606.2) unstable; urgency=low
+
+  * Fix README.source to reflect that cpu-signatures.txt processing
+    was moved to the toplevel Makefile
+  * Update diff-latest-pack.sh to really find iucode_tool
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 21 Jul 2012 18:10:47 -0300
+
+intel-microcode (1.20120606.1) unstable; urgency=low
+
+  * Change to ABI 1:
+    + Ship binary microcode in /lib/firmware
+    + Add initramfs helpers to install and load binary microcode on boot
+    + Call update-initramfs on package upgrades and removals
+    + Use non-deprecated kernel interface to interact with kernel
+      (sysfs+fw loader)
+  * Include microcode for older processors.  This should help some
+    older boxes for which microcode was not being shipped by Intel
+    anymore but which still have users, with the trade-off that we
+    will also ship some useless and mostly useless microcode
+  * Do not ship i686-only microcode in the amd64 binary package.  We
+    still ship all microcode in the i386 binary package, to support
+    64bit processors running i?86 userspace transparently
+  * Switch myself to maintainer, and Giacomo to uploader to better
+    reflect who is responsible for any bugs this could cause...
+  * Switch to the 3.0 (native) package format as it doesn't make practical
+    sense to base the source package on the Intel upstream tarball anymore
+    because we use all past Intel microcode releases as source
+    + Use xz to compress the tarball, it does a _much_ better job than
+      bzip2 and gzip for this package
+    + Override lintian warning about switch to native packaging, as it was
+      done on purpose.  It can be removed in the future
+  * Drop CDBS, switch to classic (less obfuscated/much better documented)
+    debhelper build
+  * Switch to debhelper v7, which is good enough for Debian Lenny and later
+    don't use a newer mode for now, to facilitate backporting
+  * Document in README.source:
+    + this package must be trivial to backport to oldstable and stable
+      (i.e. Debian Lenny and Debian Squeeze ATM)
+    + how to add new upstream microcode packs and microcode overrides
+    + other relevant details related to the lack of Intel changelogs
+  * Build-Depend on iucode-tool to handle binary microcode, merge
+    microcode packs and overrides, and split into firmware files
+  * Drop support for microcode.ctl, as it cannot handle binary
+    microcode or the non-deprecated kernel interface
+  * Update package short and long descriptions
+  * Add a NEWS file to explain all the behaviour changes
+  * Recommend iucode-tool to support optional selective microcode
+    selection for the initramfs (reduces microcode size greatly)
+  * Change to priority: standard.  This package should be installed in
+    every Intel-based Debian system, which is unfortunately impossible
+    since it is non-free, but at least mark it as such
+  * add debian/diff-latest-pack.sh utility (not shipped in the binary
+    package) to help produce the "upstream changelogs"
+  * debian/control: add Vcs-* fields
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Fri, 13 Jul 2012 15:23:23 -0300
+
+intel-microcode (0.20120606-1) unstable; urgency=medium
+
+  * New upstream data file: microcode-20120606
+    + New Microcodes:
+      sig 0x00020661, pf mask 0x02, 2011-07-18, rev 0x0105, size 5120
+      sig 0x000206d7, pf mask 0x6d, 2012-04-03, rev 0x070c, size 16384
+      sig 0x000306a9, pf mask 0x12, 2012-04-12, rev 0x0012, size 11264
+    + Updated Microcodes:
+      sig 0x000106e5, pf mask 0x13, 2011-09-01, rev 0x0005, size 6144
+      sig 0x000206a7, pf mask 0x12, 2012-04-24, rev 0x0028, size 9216
+      sig 0x000206d6, pf mask 0x6d, 2012-04-18, rev 0x0618, size 16384
+    + Removed Microcodes (recently updated):
+      sig 0x000206f2, pf mask 0x05, 2011-08-31, rev 0x0034, size 12288
+  * Fixes precise-event based sampling (PEBS) on Sandy Bridge processors
+    (http://lkml.org/lkml/2012/6/7/145)
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 09 Jun 2012 00:44:12 -0300
+
+intel-microcode (0.20111110-1) unstable; urgency=low
+
+  * New upstream data file: microcode-20111110
+    + New Microcodes:
+      sig 0x000206d6, pf mask 0x6d, 2011-09-29, rev 0x060c, size 15360
+    + Updated Microcodes:
+      sig 0x00020652, pf mask 0x12, 2011-09-01, rev 0x000d, size 7168
+      sig 0x00020655, pf mask 0x92, 2011-09-01, rev 0x0003, size 2048
+      sig 0x000206a7, pf mask 0x12, 2011-10-11, rev 0x0025, size 9216
+      sig 0x000206f2, pf mask 0x05, 2011-08-31, rev 0x0034, size 12288
+    + Removed Microcodes (recently added):
+      sig 0x00030661, pf mask 0x02, 2011-06-23, rev 0x0106, size 5120
+      sig 0x00030661, pf mask 0x04, 2011-06-23, rev 0x0106, size 5120
+      sig 0x00030661, pf mask 0x08, 2011-06-23, rev 0x0106, size 5120
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 24 Dec 2011 18:17:05 -0200
+
+intel-microcode (0.20110915-1) unstable; urgency=low
+
+  * New upstream data file: microcode-20110915
+    + New Microcodes:
+      sig 0x000206f2, pf mask 0x05, 2011-07-21, rev 0x0032, size 12288
+      sig 0x00030661, pf mask 0x02, 2011-06-23, rev 0x0106, size 5120
+      sig 0x00030661, pf mask 0x04, 2011-06-23, rev 0x0106, size 5120
+      sig 0x00030661, pf mask 0x08, 2011-06-23, rev 0x0106, size 5120
+    + Updated Microcodes:
+      sig 0x000206a7, pf mask 0x12, 2011-07-14, rev 0x001b, size 9216
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 16 Oct 2011 13:10:43 -0200
+
+intel-microcode (0.20110428-1) unstable; urgency=low
+
+  * New upstream data file: microcode-20110428
+    + New Microcodes:
+      sig 0x000206a7, pf mask 0x12, 2011-04-07, rev 0x0017, size 8192
+    + Readded Microcodes:
+      sig 0x00000f12, pf mask 0x04, 2003-05-02, rev 0x002e, size 2048
+    + Removed Microcodes (recently rolled back):
+      sig 0x000106a5, pf mask 0x03, 2009-04-14, rev 0x0011, size 8192
+  * debian/rules: install microcode*.dat, instead of microcode-*.dat
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 26 Jun 2011 18:56:57 -0300
+
+intel-microcode (0.20101123-1) unstable; urgency=low
+
+  * New upstream data file: microcode-20101123
+    + New Microcodes:
+      sig 0x000006fb, pf mask 0x20, 2010-10-03, rev 0x00ba, size 4096
+    + Readded Microcodes (older revision):
+      sig 0x000106a5, pf mask 0x03, 2009-04-14, rev 0x0011, size 8192
+    + Updated Microcodes:
+      sig 0x000006f2, pf mask 0x01, 2010-10-02, rev 0x005d, size 4096
+      sig 0x000006f2, pf mask 0x20, 2010-10-02, rev 0x005c, size 4096
+      sig 0x000006f6, pf mask 0x01, 2010-09-30, rev 0x00d0, size 4096
+      sig 0x000006f6, pf mask 0x04, 2010-10-01, rev 0x00d2, size 4096
+      sig 0x000006f6, pf mask 0x20, 2010-10-01, rev 0x00d1, size 4096
+      sig 0x000006f7, pf mask 0x10, 2010-10-02, rev 0x006a, size 4096
+      sig 0x000006f7, pf mask 0x40, 2010-10-02, rev 0x006b, size 4096
+      sig 0x000006fa, pf mask 0x80, 2010-10-02, rev 0x0095, size 4096
+      sig 0x000006fb, pf mask 0x01, 2010-10-03, rev 0x00ba, size 4096
+      sig 0x000006fb, pf mask 0x04, 2010-10-03, rev 0x00bc, size 4096
+      sig 0x000006fb, pf mask 0x08, 2010-10-03, rev 0x00bb, size 4096
+      sig 0x000006fb, pf mask 0x10, 2010-10-03, rev 0x00ba, size 4096
+      sig 0x000006fb, pf mask 0x40, 2010-10-03, rev 0x00bc, size 4096
+      sig 0x000006fb, pf mask 0x80, 2010-10-03, rev 0x00ba, size 4096
+      sig 0x000006fd, pf mask 0x01, 2010-10-02, rev 0x00a4, size 4096
+      sig 0x000006fd, pf mask 0x20, 2010-10-02, rev 0x00a4, size 4096
+      sig 0x000006fd, pf mask 0x80, 2010-10-02, rev 0x00a4, size 4096
+      sig 0x00010661, pf mask 0x01, 2010-10-04, rev 0x0043, size 4096
+      sig 0x00010661, pf mask 0x02, 2010-10-04, rev 0x0042, size 4096
+      sig 0x00010661, pf mask 0x80, 2010-10-04, rev 0x0044, size 4096
+      sig 0x00010676, pf mask 0x01, 2010-09-29, rev 0x060f, size 4096
+      sig 0x00010676, pf mask 0x04, 2010-09-29, rev 0x060f, size 4096
+      sig 0x00010676, pf mask 0x10, 2010-09-29, rev 0x060f, size 4096
+      sig 0x00010676, pf mask 0x40, 2010-09-29, rev 0x060f, size 4096
+      sig 0x00010676, pf mask 0x80, 2010-09-29, rev 0x060f, size 4096
+      sig 0x00010677, pf mask 0x10, 2010-09-29, rev 0x070a, size 4096
+      sig 0x0001067a, pf mask 0x11, 2010-09-28, rev 0x0a0b, size 8192
+      sig 0x0001067a, pf mask 0x44, 2010-09-28, rev 0x0a0b, size 8192
+      sig 0x0001067a, pf mask 0xa0, 2010-09-28, rev 0x0a0b, size 8192
+      sig 0x000106d1, pf mask 0x08, 2010-09-30, rev 0x0029, size 4096
+    + Removed Microcodes:
+      sig 0x00000612, pf mask 0x00, 1996-12-10, rev 0x00c6, size 2048
+      sig 0x00000616, pf mask 0x00, 1996-12-10, rev 0x00c6, size 2048
+      sig 0x00000617, pf mask 0x00, 1996-12-10, rev 0x00c6, size 2048
+      sig 0x00000619, pf mask 0x00, 1998-02-18, rev 0x00d2, size 2048
+      sig 0x00000633, pf mask 0x00, 1998-09-23, rev 0x0036, size 2048
+      sig 0x00000634, pf mask 0x00, 1998-09-23, rev 0x0037, size 2048
+      sig 0x00000650, pf mask 0x04, 1997-12-12, rev 0x0019, size 2048
+      sig 0x00000650, pf mask 0x20, 1998-02-11, rev 0x002e, size 2048
+      sig 0x00000650, pf mask 0x80, 1998-02-11, rev 0x002f, size 2048
+      sig 0x00000651, pf mask 0x02, 1999-05-25, rev 0x0041, size 2048
+      sig 0x00000651, pf mask 0x08, 1999-05-25, rev 0x0042, size 2048
+      sig 0x00000652, pf mask 0x08, 1999-05-18, rev 0x002d, size 2048
+      sig 0x00000672, pf mask 0x01, 1999-09-22, rev 0x0010, size 2048
+      sig 0x00000673, pf mask 0x01, 1999-09-10, rev 0x000e, size 2048
+      sig 0x00000683, pf mask 0x01, 2001-02-06, rev 0x0013, size 2048
+      sig 0x00000683, pf mask 0x04, 2001-02-06, rev 0x0010, size 2048
+      sig 0x00000683, pf mask 0x10, 2001-02-06, rev 0x0014, size 2048
+      sig 0x000006a4, pf mask 0x04, 2000-06-16, rev 0x0001, size 2048
+      sig 0x00000f12, pf mask 0x01, 2003-05-02, rev 0x002d, size 2048
+      sig 0x00000f12, pf mask 0x02, 2003-05-02, rev 0x002f, size 2048
+      sig 0x00000f12, pf mask 0x04, 2003-05-02, rev 0x002e, size 2048
+      sig 0x00000f13, pf mask 0x04, 2003-05-08, rev 0x0005, size 2048
+      sig 0x00000f24, pf mask 0x08, 2003-06-05, rev 0x0020, size 2048
+      sig 0x000206c2, pf mask 0x03, 2010-09-07, rev 0x0013, size 7168
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Mon, 10 Jan 2011 23:25:18 -0200
+
+intel-microcode (0.20100914-1) unstable; urgency=low
+
+  * New upstream data file: microcode-20100914
+    + Updated Microcodes:
+      sig 0x000206c2, pf mask 0x03, 2010-09-07, rev 0x0013, size 7168
+    + Removed Microcodes:
+      sig 0x000006d8, pf mask 0x08, 2006-08-31, rev 0x0021, size 2048
+      sig 0x000006d8, pf mask 0x20, 2004-07-22, rev 0x0020, size 2048
+      sig 0x00000f65, pf mask 0x04, 2007-05-10, rev 0x000b, size 2048
+      sig 0x00010661, pf mask 0x04, 2007-05-01, rev 0x0036, size 4096
+      sig 0x000106a5, pf mask 0x03, 2010-03-03, rev 0x0015, size 8192
+      sig 0x000206e6, pf mask 0x04, 2010-04-21, rev 0x0007, size 6144
+  * Add upstream changelog, with a list of changed microcodes per release
+  * Update debian/copyright to match the latest license
+  * Update documentation on where and how to get an up-to-date microcode
+    file directly from Intel, and how to install it
+  * postinst: run the microcode.ctl initscript on install/upgrades to apply
+    updated microcodes to the processor
+  * Merge changes from version 0.20090927-1, which I lost in the last
+    upload for some stupid reason.  The lack of 0.20090927-1 in the
+    changelog upsets the BTS' version tracking, so it is more than just a
+    cosmetic fix
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sun, 26 Sep 2010 19:51:46 -0300
+
+intel-microcode (0.20100826-1) unstable; urgency=low
+
+  * New upstream data file: microcode-20100826 (closes: #571128)
+  * debian/control: Add myself to uploaders
+  * debian/control: bump standards-version to 3.9.1 (no changes required)
+  * debian/control: Change homepage to the only stable URI available,
+    which is that of the RSS feed
+  * debian/source/format: set to 1.0, we gain nothing from the other formats
+
+ -- Henrique de Moraes Holschuh <hmh@debian.org>  Sat, 28 Aug 2010 11:25:34 -0300
+
+intel-microcode (0.20090927-1) unstable; urgency=low
+
+  * New upstream version (Closes: #549706)
+
+ -- Giacomo Catenazzi <cate@debian.org>  Tue, 06 Oct 2009 07:42:02 +0200
+
+intel-microcode (0.20090330-1) unstable; urgency=low
+
+  * New upstream version. This version replaced 6 and add
+    extra 3 microcode files.
+
+ -- Giacomo Catenazzi <cate@debian.org>  Tue, 31 Mar 2009 07:54:00 +0200
+
+intel-microcode (0.20080910-2) unstable; urgency=low
+
+  * Revert architecture change
+
+ -- Giacomo Catenazzi <cate@debian.org>  Mon, 13 Oct 2008 19:40:18 +0200
+
+intel-microcode (0.20080910-1) unstable; urgency=low
+
+  * New upstream version.
+  * Set architecture to all: the data is architecture indipendent
+    (and used in i386 and amd64 architectures). Note: this package
+    is "non-free" (i.e. usual manual check), so it should not
+    use space on CD and other medium, on non Intel architectures.
+
+ -- Giacomo Catenazzi <cate@debian.org>  Mon, 15 Sep 2008 08:33:19 +0200
+
+intel-microcode (0.20080401-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Giacomo Catenazzi <cate@debian.org>  Fri, 25 Apr 2008 18:59:10 +0200
+
+intel-microcode (0.20080220-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Giacomo Catenazzi <cate@debian.org>  Mon, 10 Mar 2008 07:48:48 +0100
+
+intel-microcode (0.20080131-1) unstable; urgency=low
+
+  * Initial release. The new license is finally enough good for
+    debian non-free
+  * BTW packing the microcode will solve potential/theoretical
+    man-in-the-middle attack (Closes: #282583)
+
+ -- Giacomo Catenazzi <cate@debian.org>  Wed, 20 Feb 2008 19:33:10 +0100
+

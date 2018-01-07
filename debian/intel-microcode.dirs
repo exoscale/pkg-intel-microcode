@@ -1,0 +1,3 @@
+lib/firmware/intel-ucode
+etc/default
+etc/modprobe.d

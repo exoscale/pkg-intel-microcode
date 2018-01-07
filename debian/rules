@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+# debian/rules for intel-microcode, dh version
+# Copyright (C) 2011,2016 by Henrique de Moraes Holschuh
+# Published under the GNU GPL license version 2 or any later versions
+
+PACKAGE := intel-microcode
+DEBDIR  := $(CURDIR)/debian
+PKGDIR  := $(DEBDIR)/$(PACKAGE)
+
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+export PATH := $(PATH):/sbin:/usr/sbin
+IUCODE_TOOL := iucode_tool
+
+# DebHelper control
+export DH_ALWAYS_EXCLUDE=CVS:.svn:.git
+
+ifneq (,$(filter amd64 x32,$(DEB_HOST_ARCH)))
+IUCODE_FILE := intel-microcode-64.bin
+else
+IUCODE_FILE := intel-microcode.bin
+endif
+
+# Work around Debian bug #688794
+INITRAMFS_NAME := $(subst -,_,$(subst +,_,$(subst .,_,$(PACKAGE))))
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	dh_testdir
+	dh_install
+
+	# split microcode pack
+	$(IUCODE_TOOL) -q --write-firmware="$(PKGDIR)/lib/firmware/intel-ucode" $(IUCODE_FILE)
+
+	# apply best-effort blacklist
+	if [ -r debian/ucode-blacklist.txt ] ; then \
+		cat debian/ucode-blacklist.txt | while read -r fn crap ; do \
+			if [ -r "$(PKGDIR)/lib/firmware/intel-ucode/$${fn}" ] ; then \
+				mv "$(PKGDIR)/lib/firmware/intel-ucode/$${fn}" "$(PKGDIR)/lib/firmware/intel-ucode/$${fn}.initramfs" ;\
+				echo "Renaming blacklisted microcode $${fn}" ; \
+			fi ; \
+		done ; \
+	fi
+
+	mkdir -p "$(PKGDIR)/usr/share/initramfs-tools/hooks"
+	install -m 755 "$(DEBDIR)/initramfs.hook" \
+		"$(PKGDIR)/usr/share/initramfs-tools/hooks/$(INITRAMFS_NAME)"
+	mkdir -p "$(PKGDIR)/etc/kernel/preinst.d"
+	install -m 755 "$(DEBDIR)/$(PACKAGE).kpreinst" \
+		"$(PKGDIR)/etc/kernel/preinst.d/$(PACKAGE)"
+
+	# We have a /etc/default file, but no initscript
+	install -m 644 "$(DEBDIR)/$(PACKAGE).default" "$(PKGDIR)/etc/default/$(PACKAGE)"
+
+	# modprobe.d blacklist
+	install -m 644 "$(DEBDIR)/$(PACKAGE).modprobe-blacklist" "$(PKGDIR)/etc/modprobe.d/$(PACKAGE)-blacklist.conf"
+
+override_dh_installchangelogs:
+	dh_installchangelogs changelog
+
