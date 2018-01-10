@@ -1,3 +1,9 @@
+intel-microcode (3.20171215.1-0~xenial0+exo2) xenial; urgency=medium
+
+  * Add Intel Microcodes 20180108
+
+ -- Jean-Philippe Menil <jpmenil@exoscale.ch>  Wed, 10 Jan 2018 11:31:00 +0100
+
 intel-microcode (3.20171215.1-0~xenial0+exo1) xenial; urgency=medium
 
   * Rebuild for Xenial as a non-native package.
