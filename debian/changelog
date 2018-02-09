@@ -1,3 +1,10 @@
+intel-microcode (3.20180108.1+really20171117.1-0~xenial0+exo1) xenial; urgency=medium
+
+  * Backport to Xenial as a non-native package.
+     - Remove 20180108 microcodes (unstable).
+
+ -- Vincent Bernat <bernat@debian.org>  Fri, 09 Feb 2018 11:05:14 +0100
+
 intel-microcode (3.20180108.1+really20171117.1) unstable; urgency=critical
 
   * Revert to release 20171117, as per Intel instructions issued to
@@ -48,7 +55,7 @@ intel-microcode (3.20180108.1) unstable; urgency=high
 
 intel-microcode (3.20171215.1-0~xenial0+exo2) xenial; urgency=medium
 
-  * Add Intel Microcodes 20180108
+  * Add Intel Microcodes 20180108.
 
  -- Jean-Philippe Menil <jpmenil@exoscale.ch>  Wed, 10 Jan 2018 11:31:00 +0100
 
