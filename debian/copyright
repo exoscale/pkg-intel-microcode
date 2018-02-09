@@ -2,8 +2,7 @@ This package was debianized by Giacomo Catenazzi <cate@debian.org> on
 Wed, 20 Feb 2008 07:43:49 +0100, and heavily modified by Henrique de
 Moraes Holschuh <hmh@debian.org> on Fri, 13 Jul 2012 15:23:23 -0300.
 
-It was downloaded from http://downloadcenter.intel.com/Detail_Desc.aspx?ProductID=483&DwnldID=14303
-and later from http://feeds.downloadcenter.intel.com/rss/?p=483&lang=eng
+It was downloaded through https://downloadcenter.intel.com/search?keyword=linux+microcode
 
 Debian distributes each individual Intel microcode update unmodified, as
 downloaded from Intel.  Each individual microcode update is translated to a

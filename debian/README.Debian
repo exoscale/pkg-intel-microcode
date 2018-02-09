@@ -182,14 +182,13 @@ reasons.
 Downloading new microcode data from Intel:
 
 A new version of the microcode bundle can be downloaded directly from
-Intel.  Try to search for "Linux Processor Microcode":
+Intel.  Try to search for "Linux Microcode":
 
-https://downloadcenter.intel.com/search?keyword=Linux+Processor+Microcode+Data+File
+	https://downloadcenter.intel.com/search?keyword=linux+microcode
 
-Alternatively, you can try one of these RSS feeds:
+Alternatively, you can try looking for the downloads related to a recent
+Intel processor.
 
-http://feeds.downloadcenter.intel.com/rss/?p=483&lang=eng
-http://feeds.downloadcenter.intel.com/rss/?p=2371&lang=eng
 
 To manually install the downloaded microcode bundle, unpack the archive you
 got from Intel and copy the microcode-*.dat file from the archive to
@@ -203,9 +202,14 @@ can only be written to by root (e.g. mode 0644) for security reasons:
 
 After you install the updated intel-microcode.dat file, run as root:
 
-	modprobe cpuid
-	iucode_tool --scan-system --write-firmware /usr/share/misc/intel-microcode.dat
 	update-initramfs -u
+
+The intel-microcode package supports "extra" microcode data in the
+following files (and will warn you if it detects and use them):
+
+	/usr/share/misc/intel-microcode*
+
+both .dat and .bin formats are supported.
 
 
 Triggering an immediate microcode update (without a reboot):
