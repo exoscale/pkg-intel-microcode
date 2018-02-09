@@ -2,6 +2,12 @@ intel-microcode (3.20180108.1+really20171117.1-0~xenial0+exo1) xenial; urgency=m
 
   * Backport to Xenial as a non-native package.
      - Remove 20180108 microcodes (unstable).
+     - Add microcode for Skylake:
+       sig 0x00050654, pf_mask 0xb7, 2017-12-08, rev 0x200003c, size 27648
+     - Add microcode for Haswell:
+       sig 0x000306f2, pf_mask 0x6f, 2018-01-19, rev 0x003c, size 33792
+     - Add microcode for Broadwell:
+       sig 0x000406f1, pf_mask 0xef, 2018-01-19, rev 0xb00002a, size 27648
 
  -- Vincent Bernat <bernat@debian.org>  Fri, 09 Feb 2018 11:05:14 +0100
 
