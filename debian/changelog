@@ -1,3 +1,10 @@
+intel-microcode (3.20180108.1+really20171117.1-0~xenial0+exo2) xenial; urgency=medium
+
+  * Update microcode for Skylake:
+     sig 0x00050654, pf_mask 0xb7, 2018-01-26, rev 0x2000043, size 28672
+
+ -- Vincent Bernat <bernat@debian.org>  Fri, 23 Feb 2018 10:56:46 +0100
+
 intel-microcode (3.20180108.1+really20171117.1-0~xenial0+exo1) xenial; urgency=medium
 
   * Backport to Xenial as a non-native package.
