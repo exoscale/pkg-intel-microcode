@@ -1,3 +1,12 @@
+intel-microcode (3.20180108.1+really20171117.1-0~xenial0+exo3) xenial; urgency=medium
+
+  * Add microcode for Sandy Bridge:
+     sig 0x000206d7, pf_mask 0x6d, 2018-01-26, rev 0x0713, size 19456
+  * Add microcode for Ivy Bridge:
+     sig 0x000306e4, pf_mask 0xed, 2018-01-25, rev 0x042c, size 15360
+
+ -- Vincent Bernat <bernat@debian.org>  Mon, 12 Mar 2018 10:35:37 +0100
+
 intel-microcode (3.20180108.1+really20171117.1-0~xenial0+exo2) xenial; urgency=medium
 
   * Update microcode for Skylake:
