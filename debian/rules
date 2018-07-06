@@ -27,10 +27,6 @@ INITRAMFS_NAME := $(subst -,_,$(subst +,_,$(subst .,_,$(PACKAGE))))
 %:
 	dh $@
 
-override_dh_auto_build:
-	for f in *.b64; do base64 -d $$f > $${f%.b64}; done
-	dh_auto_build
-
 override_dh_auto_install:
 	dh_testdir
 	dh_install
