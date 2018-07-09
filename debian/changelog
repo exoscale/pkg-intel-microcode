@@ -1,3 +1,9 @@
+intel-microcode (3.20180703.2-0~bionic0+exo1) xenial; urgency=medium
+
+  * Backport for Bionic.
+
+  -- Exoscale <ops@exoscale.ch>  Mon, 09 Jul 2018 10:25:25 +0200
+
 intel-microcode (3.20180703.2-0~xenial0+exo1) xenial; urgency=medium
 
   * Backport for Xenial.
